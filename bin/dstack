@@ -25,7 +25,7 @@ case "$2" in
                 vim $COMPOSE_FILE
                 ;;
 	*)
-		echo "Usage: $0 <stack> {up|down|edit|exec|logs}"
+		echo "Usage: $0 <stack> {up|down|edit|logs|ps|top|port|exec|run|config|images|help}"
                 echo "Alternative usage to run commands on a container:\n\t$0 exec <container> <command>"
 		exit 1
 esac
