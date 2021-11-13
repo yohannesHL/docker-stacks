@@ -1,24 +1,32 @@
 #!/usr/bin/zsh
 
-# envs
-if [ -z "$STACKS_BASE" ]; then
+# This should already be defined by the setup script (install.sh)
+if [[ -z "$STACKS_BASE" ]]; then
  STACKS_BASE="$PWD/stacks"
 fi
 
 STACK_NAME=$1
-
 COMPOSE_FILE="$STACKS_BASE/$STACK_NAME/docker-compose.yml"
 
-echo cmd: $COMPOSE_FILE $@
+
+if [ "$1" = "exec" ]; then
+    Args="${@:3}"
+    docker exec -it $2 ${Args:-bash}
+    exit 0
+fi
+
+echo Ran cmd:$@ on $COMPOSE_FILE
+
 case "$2" in
-	up)
-		docker-compose -p $STACK_NAME -f $COMPOSE_FILE up ${@:3}
+        up|down|logs|top|images|config|ps|port|exec|run|help)
+		docker-compose -p $STACK_NAME -f $COMPOSE_FILE ${@:2}
 		;;
-        down)
-                docker-compose -p $STACK_NAME -f $COMPOSE_FILE down ${@:3}
+        edit)
+                vim $COMPOSE_FILE
                 ;;
 	*)
-		echo "Usage: $0 <STACK> {up|down}"
+		echo "Usage: $0 <stack> {up|down|edit|exec|logs}"
+                echo "Alternative usage to run commands on a container:\n\t$0 exec <container> <command>"
 		exit 1
 esac
 
