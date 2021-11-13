@@ -1,0 +1,16 @@
+
+services:
+  vault:
+    image: vault
+    ports:
+      - 9466:8200
+    volumes:
+      - vault-data:/vault
+    cap_add:
+      - IPC_LOCK
+                                                                                                
+
+volumes:
+    vault-data:       
+
+

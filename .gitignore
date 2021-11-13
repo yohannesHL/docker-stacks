@@ -1,0 +1,5 @@
+gitlab-config/
+gitlab-runner*/
+
+.env
+*.env

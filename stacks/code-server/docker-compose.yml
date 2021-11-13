@@ -1,0 +1,31 @@
+
+services:
+  code:
+    build:
+      context: ../code-server
+    image: local/code-server
+    user: 1000:1000
+    container_name: code
+    env_file: code-server.env
+    labels:
+      traefik.http.routers.code.rule: "Host(`code.dev.io`)"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - $HOME/.zshrc:/home/coder/.zshrc:ro
+      - $HOME/.config/code-server/config.yaml:/home/coder/.config/code-server/config.yaml
+      - $HOME/.config/code-server:/home/coder/.local/share/code-server
+      - $HOME/dev:/home/coder/project
+      - $GOPATH:/home/coder/go:ro
+      - $GOROOT:/usr/local/go:ro
+      - python_conda:/opt/conda
+
+
+volumes:
+  python_conda:
+    external: true
+
+networks:
+  default:
+    external:
+      name: dev
+

@@ -1,0 +1,24 @@
+#!/usr/bin/zsh
+
+# envs
+if [ -z "$STACKS_BASE" ]; then
+ STACKS_BASE="$PWD/stacks"
+fi
+
+STACK_NAME=$1
+
+COMPOSE_FILE="$STACKS_BASE/$STACK_NAME/docker-compose.yml"
+
+echo cmd: $COMPOSE_FILE $@
+case "$2" in
+	up)
+		docker-compose -p $STACK_NAME -f $COMPOSE_FILE up ${@:3}
+		;;
+        down)
+                docker-compose -p $STACK_NAME -f $COMPOSE_FILE down ${@:3}
+                ;;
+	*)
+		echo "Usage: $0 <STACK> {up|down}"
+		exit 1
+esac
+

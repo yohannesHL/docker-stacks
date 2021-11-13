@@ -1,0 +1,21 @@
+
+
+services:
+  traefik:
+    image: traefik:v2.0 
+    container_name: traefik
+    ports:
+      - 8080:8080
+      - 80:80
+    volumes:
+      - ./traefik.yml:/etc/traefik/traefik.yml:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      traefik.http.services.traefik.loadbalancer.server.port: "8080"
+      #traefik.frontend.rule: "Host:traefik.dev.io"
+      traefik.http.routers.traefik.rule: "Host(`traefik.dev.io`)"
+
+
+
+
+

@@ -1,0 +1,28 @@
+services:
+  db:
+    extends:
+      file: ../postgres/docker-compose.yml
+      service: postgres
+    env_file: postgres.env
+
+  redis:
+    extends:
+      file: ../redis/docker-compose.yml
+      service: redis
+
+  vault:
+    extends:
+      file: ../vault/docker-compose.yml
+      service: vault
+    labels:
+      traefik.http.routers.code.rule: "Host(`vault.dev.io`)"
+          
+
+volumes:
+  postgres-data:
+  vault-data:
+
+networks:
+  default:
+    external:
+      name: dev

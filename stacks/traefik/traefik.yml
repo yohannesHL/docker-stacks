@@ -1,0 +1,11 @@
+# Docker configuration backend
+providers:
+  docker:
+    defaultRule: "Host(`{{ trimPrefix `/` .Name }}.dev.io`)"
+
+
+# API and dashboard configuration
+api:
+  insecure: true
+  dashboard: true
+  #rule: "Host(`traefik.dev.io`)"
